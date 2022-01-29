@@ -6,7 +6,7 @@
         <HeaderNav></HeaderNav>
 
         <!-- header banner section -->
-        <HeaderBanner></HeaderBanner>
+        <!-- <HeaderBanner></HeaderBanner> -->
         
         
         
@@ -283,17 +283,33 @@
 
 <script>
 import HeaderNav from '../components/Header.vue';
-import HeaderBanner from '../components/HeaderBanner.vue';
+// import HeaderBanner from '../components/HeaderBanner.vue';
 import Newsletter from '../components/Newsletter.vue';
 import Footer from '../components/Footer.vue'
-
+import axios from "axios";
 export default {
-  name: 'Home',
+  data() {
+    return {
+      loading: false,
+      all_users: ''
+    }
+  },
+  mounted () {
+    this.loading = true;
+    axios
+      .get('https://reqres.in/api/users?page=1')
+      .then(response => (
+        this.all_users = response.data.data,
+        console.log(this.all_users)
+        ))
+      .catch(error => console.log(error))
+      .finally(() => this.loading = false)
+  },
   components: {
     HeaderNav,
-    HeaderBanner,
+    // HeaderBanner,
     Newsletter,
     Footer
-  }
+  },
 }
 </script>
